@@ -1,0 +1,17 @@
+services:
+  airflow:
+    build: .               
+    restart: always
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./load_raw_to_sql.py:/opt/airflow/load_raw_to_sql.py
+      - ./dbt_project:/opt/airflow/dbt_project
+      - ./dbt_profile:/opt/airflow/dbt_profile
+    ports:
+      - "8080:8080"
+    command: ["airflow", "standalone"]

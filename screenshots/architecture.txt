@@ -1,0 +1,83 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="NYC Taxi Azure Architecture">
+    <mxGraphModel dx="1184" dy="661" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Data Source -->
+        <mxCell id="2" value="Data Source&#10;NYC Taxi Data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Data Ingestion (Docker + Airflow) -->
+        <mxCell id="3" value="Data Ingestion&#10;Docker + Apache Airflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f0ff;strokeColor=#2f73d8;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="210" y="230" width="190" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Raw Data Store (Blob) -->
+        <mxCell id="4" value="Raw Data Store&#10;Azure Blob Storage (Bronze)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="430" y="230" width="210" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Transformation container -->
+        <mxCell id="5" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#ff6666;strokeWidth=2;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="420" height="260" as="geometry"/>
+        </mxCell>
+
+        <!-- Transformation label -->
+        <mxCell id="6" value="Transformation" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="560" y="140" width="140" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- dbt Core box inside Transformation -->
+        <mxCell id="7" value="dbt Core&#10;SQL Transformations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="450" y="200" width="170" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Azure SQL Database box inside Transformation -->
+        <mxCell id="8" value="Azure SQL Database&#10;Silver &amp; Gold Layers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="640" y="200" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Medallion labels inside Transformation -->
+        <mxCell id="9" value="Silver / Gold tables" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="650" y="275" width="160" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Reporting Power BI -->
+        <mxCell id="10" value="Reporting&#10;Power BI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="880" y="230" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrows -->
+
+        <!-- Data Source -> Ingestion -->
+        <mxCell id="20" style="endArrow=block;html=1;rounded=0;" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Ingestion -> Raw Data Store (Blob) -->
+        <mxCell id="21" style="endArrow=block;html=1;rounded=0;" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Raw Data Store -> dbt (inside Transformation) -->
+        <mxCell id="22" style="endArrow=block;html=1;rounded=0;" edge="1" parent="1" source="4" target="7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- dbt -> Azure SQL -->
+        <mxCell id="23" style="endArrow=block;html=1;rounded=0;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Azure SQL -> Power BI -->
+        <mxCell id="24" style="endArrow=block;html=1;rounded=0;" edge="1" parent="1" source="8" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

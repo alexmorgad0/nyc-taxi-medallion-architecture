@@ -1,0 +1,99 @@
+version: 2
+
+models:
+
+  - name: stg_trips
+    description: "Cleaned and standardized trip data from the raw NYC taxi dataset."
+    columns:
+      - name: vendor_id
+        description: "Code indicating the taxi provider."
+      - name: pickup_datetime
+        description: "Timestamp when the passenger was picked up."
+        tests:
+          - not_null
+      - name: dropoff_datetime
+        description: "Timestamp when the passenger was dropped off."
+        tests:
+          - not_null
+      - name: passenger_count
+        description: "Number of passengers in the taxi."
+      - name: trip_distance
+        description: "Distance of the trip in miles."
+        tests:
+          - not_null
+      - name: rate_code_id
+        description: "Taxi rate code used for the trip (e.g. Standard, JFK)."
+        tests:
+          - accepted_values:
+              values: [1,2,3,4,5,99]
+      - name: store_and_fwd_flag
+        description: "Indicates if trip record was held in vehicle memory before transmission."
+      - name: pu_location_id
+        description: "Pickup taxi zone ID."
+      - name: do_location_id
+        description: "Dropoff taxi zone ID."
+      - name: payment_type
+        description: "Code indicating how the passenger paid."
+        tests:
+          - accepted_values:
+              values: [1,2,3,4,5,6]
+      - name: fare_amount
+        description: "Base fare amount for the trip."
+        tests:
+          - not_null
+      - name: extra
+        description: "Extra charges such as rush hour or overnight fees."
+      - name: mta_tax
+        description: "MTA tax amount."
+      - name: tip_amount
+        description: "Tip given by passenger."
+      - name: tolls_amount
+        description: "Total tolls paid during the trip."
+      - name: improvement_surcharge
+        description: "NYC taxi improvement fee."
+      - name: total_amount
+        description: "Total amount charged to passenger including extras and tolls."
+        tests:
+          - not_null
+      - name: congestion_surcharge
+        description: "Additional congestion fee applied during specific hours."
+      - name: airport_fee
+        description: "Fee applied for airport pickups."
+      - name: cbd_congestion_fee
+        description: "Congestion pricing fee for Manhattan trips."
+
+  - name: fact_trips
+    description: "Fact table containing enriched and transformed taxi trip data."
+    columns:
+      - name: trip_id
+        description: "Surrogate key for the trip."
+        tests:
+          - not_null
+          - unique
+      - name: pickup_date
+        description: "Date when the passenger was picked up."
+        tests:
+          - not_null
+      - name: pickup_hour
+        description: "Hour extracted from pickup timestamp."
+      - name: pickup_day_name
+        description: "Weekday name extracted from pickup timestamp."
+      - name: payment_type
+        description: "Payment type foreign key."
+        tests:
+          - relationships:
+              to: ref('dim_payment_type')
+              field: payment_type
+      - name: tip_pct
+        description: "Percentage of fare paid as tip."
+
+  - name: dim_payment_type
+    description: "Lookup table mapping payment_type codes to descriptions."
+    columns:
+      - name: payment_type
+        description: "Primary key of payment type."
+        tests:
+          - unique
+          - not_null
+      - name: payment_type_desc
+        description: "Human-readable payment type description."
