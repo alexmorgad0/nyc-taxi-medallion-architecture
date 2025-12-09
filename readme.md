@@ -4,7 +4,7 @@
 ---
 ## 🏗️ Architecture
 
-![Architecture Diagram](./screenshots/architecture1.png)
+![Architecture Diagram](./screenshots/architecture2.png)
 
 ## 📝 Project Overview
 
@@ -155,6 +155,7 @@ These tables are consumed by **Power BI**.
 - Understood how to integrate cloud storage and compute through **Azure Blob Storage** and **Azure SQL Database**.  
 - Modeled clean **Gold layer marts** optimized for BI consumption.  
 - Created a **Power BI dashboard** connected directly to Azure SQL, demonstrating the end-to-end value of the pipeline.  
+
 
 
 
